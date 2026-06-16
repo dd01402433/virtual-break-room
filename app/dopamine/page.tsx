@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+// redeploy trigger
 export const metadata: Metadata = {
   title: "도파민 사이트 모음 TOP 10 — Z세대 힐링, 무료 도파민 | 담배런",
   description: "가짜 배달, 온라인 담타, AI 채팅, 랜덤 채팅, 가상 카페 등 한국 Z세대가 가장 많이 찾는 도파민 사이트 TOP 10 완벽 정리. 무료 도파민, 번아웃 탈출.",
