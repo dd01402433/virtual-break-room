@@ -3,15 +3,15 @@ import type { Metadata } from "next";
 const SITE_URL = "https://virtual-break-room-318.vercel.app";
 
 export const metadata: Metadata = {
-  title: "도파민 캠프 소개 | 가상 휴게실 안내",
+  title: "담배런 소개 | 가상 휴게실 안내",
   description:
-    "도파민 캠프는 회원가입 없이 이용 가능한 온라인 가상 휴게실입니다. 웹페이지만 열면 담배 한 대 피우며 편하게 대화할 수 있어요.",
+    "담배런은 회원가입 없이 이용 가능한 온라인 가상 휴게실입니다. 웹페이지만 열면 담배 한 대 피우며 편하게 대화할 수 있어요.",
   openGraph: {
-    title: "도파민 캠프 소개",
+    title: "담배런 소개",
     description:
       "회원가입 없는 한국 온라인 휴게실, 언제든지 담배 피우며 대화하세요.",
     url: `${SITE_URL}/about`,
-    siteName: "도파민 캠프",
+    siteName: "담배런",
   },
 };
 
@@ -68,7 +68,7 @@ export default function AboutPage() {
               lineHeight: 1.3,
             }}
           >
-            도파민 캠프 소개
+            담배런 소개
           </h1>
           <p style={{
             fontSize: 14,
@@ -99,7 +99,7 @@ export default function AboutPage() {
             여기는 어떤 곳인가요?
           </h2>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 1.75 }}>
-            도파민 캠프는 <b>회원가입도 다운로드도 필요 없는</b> 온라인 가상 휴게실입니다. 웹페이지를 열고
+            담배런은 <b>회원가입도 다운로드도 필요 없는</b> 온라인 가상 휴게실입니다. 웹페이지를 열고
             닉네임만 입력하면 바로 참여할 수 있어요. 대화, 흡연, 멍 때리기 — 다 괜찮습니다.
           </p>
         </div>
@@ -215,7 +215,7 @@ export default function AboutPage() {
             color: "rgba(255,255,255,0.15)",
           }}
         >
-          &copy; 2026 도파민 캠프
+          &copy; 2026 담배런
         </p>
       </main>
     </div>

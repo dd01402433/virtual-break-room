@@ -525,7 +525,7 @@ export default function ChatRoom() {
               lineHeight: 1.3,
             }}
           >
-            도파민 캠프
+            담배런
           </h1>
           <p style={{
             fontSize: 13,

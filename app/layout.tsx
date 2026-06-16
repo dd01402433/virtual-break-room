@@ -6,22 +6,22 @@ const GEIST_URL =
 const SITE_URL = "https://virtual-break-room-318.vercel.app";
 
 export const metadata: Metadata = {
-  title: "도파민 캠프 | 온라인 가상 휴게실 — 언제든지 한숨 돌리세요",
+  title: "담배런 | 온라인 가상 휴게실 — 언제든지 한숨 돌리세요",
   description:
     "한국에서 가장 자유로운 가상 휴게실. 회원가입도 다운로드도 필요 없어요. 웹페이지를 열고 담배 한 대 피우며 편하게 대화하세요.",
   metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "도파민 캠프 — 온라인 흡연 채팅방, 언제든지 들러서 한숨 돌리세요",
+    title: "담배런 — 온라인 흡연 채팅방, 언제든지 들러서 한숨 돌리세요",
     description:
       "한국에서 가장 자유로운 가상 휴게실. 회원가입 불필요, 웹만 열면 담배 한 대 피우며 대화할 수 있어요.",
     url: SITE_URL,
-    siteName: "도파민 캠프",
+    siteName: "담배런",
     locale: "ko_KR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "도파민 캠프",
+    title: "담배런",
     description:
       "온라인 가상 휴게실, 언제든지 담배 한 대 피우며 대화하세요. 회원가입 불필요.",
   },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "도파민 캠프",
+  name: "담배런",
   url: SITE_URL,
   description:
     "한국에서 가장 자유로운 온라인 가상 휴게실. 회원가입 없이 언제든지 담배를 피우며 대화할 수 있습니다.",
