@@ -18,6 +18,13 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
+    <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{__html: JSON.stringify({"@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "stress-game"}]
+})}}
+      />
     <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
