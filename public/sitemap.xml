@@ -15,4 +15,81 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/faq</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/faq"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/online-damta</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/online-damta"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/fake-delivery</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/fake-delivery"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/fake-shopping</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/fake-shopping"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/ai-chat</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/ai-chat"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/random-chat</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/random-chat"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/virtual-cafe</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/virtual-cafe"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/quit-work-timer</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/quit-work-timer"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/stress-game</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/stress-game"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://virtual-break-room-318.vercel.app/dopamine/online-together</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://virtual-break-room-318.vercel.app/dopamine/online-together"/>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
