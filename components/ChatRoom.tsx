@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import SkeletonCard from "@/components/SkeletonCard";
 import MarqueeBanner from "@/components/MarqueeBanner";
 import StatusBar from "@/components/StatusBar";
+import AdBanner from "@/components/AdBanner";
 import FloatBubbles, { useFloatBubbles } from "@/components/FloatBubbles";
 import "../app/globals.css";
 
@@ -549,7 +550,8 @@ export default function ChatRoom() {
         >
           {loading
             ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-            : messages.map((msg, i) => (
+            : messages.flatMap((msg, i) => {
+                const card = (
                 <div
                   key={msg.id}
                   className={msg.type === "smoke" ? "glass-card-smoke" : "glass-card"}
@@ -600,7 +602,12 @@ export default function ChatRoom() {
                     {msg.text}
                   </p>
                 </div>
-              ))}
+                );
+                if (i > 0 && i % 8 === 0) {
+                  return [<AdBanner key={`ad-${msg.id}`} />, card];
+                }
+                return [card];
+              })}
         </div>
 
         {/* Input */}
