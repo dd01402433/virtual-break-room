@@ -6,14 +6,28 @@ const GEIST_URL =
 const SITE_URL = "https://virtual-break-room-318.vercel.app";
 
 export const metadata: Metadata = {
-  title: "담배런 | 온라인 가상 휴게실 — 언제든지 한숨 돌리세요",
+  title: "담배런 | 온라인 담타 — 퇴근 후 담배 한 대, 가상 흡연실",
   description:
-    "한국에서 가장 자유로운 가상 휴게실. 회원가입도 다운로드도 필요 없어요. 웹페이지를 열고 담배 한 대 피우며 편하게 대화하세요.",
+    "퇴근 후 담배 한 대 피는 기분, 온라인 담타 담배런. 회원가입 없이 바로 접속하는 익명 채팅 가상 흡연실. 실시간 접속자와 함께 스트레스 해소, Z세대 힐링 도파민 사이트.",
   metadataBase: new URL(SITE_URL),
+  keywords: [
+    "온라인 담타",
+    "담배런",
+    "가상 흡연실",
+    "퇴근 후 담배",
+    "익명 채팅",
+    "스트레스 해소",
+    "Z세대 힐링",
+    "도파민 사이트",
+    "실시간 접속자",
+    "번아웃 탈출",
+    "무료 도파민",
+    "온라인 휴게실",
+  ],
   openGraph: {
-    title: "담배런 — 온라인 흡연 채팅방, 언제든지 들러서 한숨 돌리세요",
+    title: "담배런 | 온라인 담타 — 퇴근 후 담배 한 대 피는 기분",
     description:
-      "한국에서 가장 자유로운 가상 휴게실. 회원가입 불필요, 웹만 열면 담배 한 대 피우며 대화할 수 있어요.",
+      "회원가입 없는 익명 채팅 가상 흡연실. 퇴근 후 담배 한 대, 실시간 접속자와 함께 스트레스 해소. Z세대 힐링 도파민 사이트.",
     url: SITE_URL,
     siteName: "담배런",
     locale: "ko_KR",
@@ -21,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "담배런",
+    title: "담배런 | 온라인 담타",
     description:
-      "온라인 가상 휴게실, 언제든지 담배 한 대 피우며 대화하세요. 회원가입 불필요.",
+      "퇴근 후 담배 한 대. 회원가입 없이 바로 접속하는 익명 가상 흡연실. 스트레스 해소 도파민 사이트.",
   },
   alternates: {
     languages: {
@@ -42,7 +56,7 @@ const jsonLd = {
   name: "담배런",
   url: SITE_URL,
   description:
-    "한국에서 가장 자유로운 온라인 가상 휴게실. 회원가입 없이 언제든지 담배를 피우며 대화할 수 있습니다.",
+    "퇴근 후 담배 한 대 피는 기분, 온라인 담타 담배런. 회원가입 없는 익명 채팅 가상 흡연실, 실시간 접속자와 함께하는 Z세대 힐링 도파민 사이트.",
   applicationCategory: "SocialNetworkingApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0" },
