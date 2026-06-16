@@ -71,7 +71,7 @@ export default function MarqueeBanner() {
             letterSpacing: "0.03em",
           }}
         >
-          [通知]粗言穢語、垃圾訊息、不尊重他人的行為、未經授權的宣傳等行為將永久禁止入內！——助理經理
+          [공지] 욕설, 스팸, 타인을 존중하지 않는 행위, 무단 홍보 등은 영구 입장 금지됩니다! — 매니저
         </span>
       </div>
 
@@ -103,7 +103,7 @@ export default function MarqueeBanner() {
           (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)";
           (e.currentTarget as HTMLElement).style.background = "transparent";
         }}
-        title="關閉"
+        title="닫기"
       >
         ✕
       </button>

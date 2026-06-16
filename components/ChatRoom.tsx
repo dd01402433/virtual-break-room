@@ -390,7 +390,7 @@ function Cigarette({ smokerName }: { smokerName: string }) {
               letterSpacing: "0.03em",
             }}
           >
-            {remoteState.smokerName} 正在抽
+            {remoteState.smokerName} 담배 피우는 중
           </div>
         )}
         <canvas
@@ -411,7 +411,7 @@ function Cigarette({ smokerName }: { smokerName: string }) {
             marginTop: 4,
           }}
         >
-          長按點燃
+          길게 눌러 점화
         </div>
       </div>
     </div>
@@ -487,7 +487,7 @@ export default function ChatRoom() {
       await fetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: trimmedName, text: `給 ${targetName} 遞了一根煙 🚬`, type: "smoke" }),
+        body: JSON.stringify({ name: trimmedName, text: `${targetName}님께 담배를 건넸습니다 🚬`, type: "smoke" }),
       });
       await fetchMessages();
     } catch {
@@ -525,7 +525,7 @@ export default function ChatRoom() {
               lineHeight: 1.3,
             }}
           >
-            多巴胺集中營
+            도파민 캠프
           </h1>
           <p style={{
             fontSize: 13,
@@ -534,7 +534,7 @@ export default function ChatRoom() {
             fontWeight: 400,
             letterSpacing: "0.03em",
           }}>
-            目前 {online} 人在休息 · 抽根菸再走吧
+            지금 {online}명 쉬는 중 · 담배 한 대 피우세요
           </p>
         </div>
 
@@ -573,7 +573,7 @@ export default function ChatRoom() {
                     </span>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", fontWeight: 400 }}>
-                        {new Date(msg.timestamp).toLocaleTimeString("zh-Hant-TW", {
+                        {new Date(msg.timestamp).toLocaleTimeString("ko-KR", {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
@@ -582,7 +582,7 @@ export default function ChatRoom() {
                         <button
                           onClick={(e) => handleSmoke(e, msg.id, msg.name)}
                           disabled={smokingId === msg.id}
-                          title="遞煙"
+                          title="담배 건네기"
                           className={`smoke-btn${smokingId === msg.id ? " active" : ""}`}
                         >
                           🚬
@@ -624,7 +624,7 @@ export default function ChatRoom() {
           }}
         >
           <input
-            placeholder="暱稱"
+            placeholder="닉네임"
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={20}
@@ -649,7 +649,7 @@ export default function ChatRoom() {
             }}
           />
           <input
-            placeholder="想說的話..."
+            placeholder="하고 싶은 말..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             maxLength={200}
@@ -678,7 +678,7 @@ export default function ChatRoom() {
             disabled={sending}
             className="btn-gradient"
           >
-            留言
+            남기기
           </button>
         </form>
       </main>

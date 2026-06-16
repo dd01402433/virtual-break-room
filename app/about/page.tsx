@@ -3,15 +3,15 @@ import type { Metadata } from "next";
 const SITE_URL = "https://virtual-break-room-318.vercel.app";
 
 export const metadata: Metadata = {
-  title: "關於多巴胺集中營 | 虛擬休息室介紹",
+  title: "도파민 캠프 소개 | 가상 휴게실 안내",
   description:
-    "多巴胺集中營是一個免註冊的線上虛擬休息室。打開網頁就能抽根煙、放鬆聊天，隨時進來喘口氣。",
+    "도파민 캠프는 회원가입 없이 이용 가능한 온라인 가상 휴게실입니다. 웹페이지만 열면 담배 한 대 피우며 편하게 대화할 수 있어요.",
   openGraph: {
-    title: "關於多巴胺集中營",
+    title: "도파민 캠프 소개",
     description:
-      "免註冊的華語線上休息室，隨時進來抽根煙、聊天放鬆。",
+      "회원가입 없는 한국 온라인 휴게실, 언제든지 담배 피우며 대화하세요.",
     url: `${SITE_URL}/about`,
-    siteName: "多巴胺集中營",
+    siteName: "도파민 캠프",
   },
 };
 
@@ -68,7 +68,7 @@ export default function AboutPage() {
               lineHeight: 1.3,
             }}
           >
-            關於多巴胺集中營
+            도파민 캠프 소개
           </h1>
           <p style={{
             fontSize: 14,
@@ -77,7 +77,7 @@ export default function AboutPage() {
             fontWeight: 400,
             letterSpacing: "0.03em",
           }}>
-            隨時進來，喘口氣。
+            언제든지 들러서 한숨 돌리세요.
           </p>
         </div>
 
@@ -96,11 +96,11 @@ export default function AboutPage() {
             marginBottom: 10,
             letterSpacing: "0.02em",
           }}>
-            這裡是什麼？
+            여기는 어떤 곳인가요?
           </h2>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 1.75 }}>
-            多巴胺集中營是一個<b>免註冊、免下載</b>的線上虛擬休息室。打開網頁、
-            輸入暱稱，就能立刻加入。聊天、抽煙、放空，隨你。
+            도파민 캠프는 <b>회원가입도 다운로드도 필요 없는</b> 온라인 가상 휴게실입니다. 웹페이지를 열고
+            닉네임만 입력하면 바로 참여할 수 있어요. 대화, 흡연, 멍 때리기 — 다 괜찮습니다.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export default function AboutPage() {
             marginBottom: 10,
             letterSpacing: "0.02em",
           }}>
-            可以做什麼？
+            무엇을 할 수 있나요?
           </h2>
           <ul style={{
             paddingLeft: 0,
@@ -130,15 +130,15 @@ export default function AboutPage() {
           }}>
             <li>
               <span style={{ color: "#c49a5a", marginRight: 8 }}>01</span>
-              即時聊天 — 和線上的陌生人打個招呼
+              실시간 채팅 — 온라인에 있는 사람들과 가볍게 인사하세요
             </li>
             <li>
               <span style={{ color: "#c49a5a", marginRight: 8 }}>02</span>
-              虛擬抽煙 — 長按點燃、甩動彈灰，享受儀式感
+              가상 흡연 — 길게 눌러 점화하고, 흔들어 재를 털어내는 의식을 즐기세요
             </li>
             <li>
               <span style={{ color: "#c49a5a", marginRight: 8 }}>03</span>
-              遞煙社交 — 看到順眼的留言？遞根煙過去
+              담배 건네기 — 마음에 드는 메시지가 보이면 담배 한 대 건네보세요
             </li>
           </ul>
         </div>
@@ -158,11 +158,11 @@ export default function AboutPage() {
             marginBottom: 10,
             letterSpacing: "0.02em",
           }}>
-            目標受眾
+            대상 사용자
           </h2>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 1.75 }}>
-            華語圈的上班族、學生、任何想在工作或學習間隙喘口氣的人。特別適合
-            台灣、香港、澳門及東南亞華人社群。
+            한국의 직장인, 학생, 그리고 일이나 공부 중 잠시 숨 돌리고 싶은 모든 분들을 위한 공간입니다.
+            짧은 휴식 시간에 부담 없이 들어와 담배 한 대 피우고 가세요.
           </p>
         </div>
 
@@ -181,11 +181,11 @@ export default function AboutPage() {
             marginBottom: 10,
             letterSpacing: "0.02em",
           }}>
-            技術
+            기술
           </h2>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 1.75 }}>
-            使用 Next.js 15 構建，採用 App Router 架構。介面為繁體中文，針對
-            華語使用者最佳化。
+            Next.js 15 기반, App Router 아키텍처로 제작되었습니다. 인터페이스는 한국어로
+            최적화되어 있습니다.
           </p>
         </div>
 
@@ -203,7 +203,7 @@ export default function AboutPage() {
               textDecoration: "none",
             }}
           >
-            馬上進來喘口氣
+            지금 바로 들어오기
           </a>
         </div>
 
@@ -215,7 +215,7 @@ export default function AboutPage() {
             color: "rgba(255,255,255,0.15)",
           }}
         >
-          &copy; 2026 多巴胺集中營
+          &copy; 2026 도파민 캠프
         </p>
       </main>
     </div>

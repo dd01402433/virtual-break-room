@@ -54,7 +54,7 @@ export default function StatusBar() {
           letterSpacing: "0.04em",
         }}
       >
-        在公司屋頂抽煙休息 {onlineNow}人 / {totalOnline}人 · 今天撿到{cigButts}個菸頭
+        옥상에서 담배 피우는 중 {onlineNow}명 / {totalOnline}명 · 오늘 주운 담배꽁초 {cigButts}개
       </span>
     </div>
   );

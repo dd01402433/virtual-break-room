@@ -6,28 +6,28 @@ const GEIST_URL =
 const SITE_URL = "https://virtual-break-room-318.vercel.app";
 
 export const metadata: Metadata = {
-  title: "多巴胺集中營 | 線上虛擬休息室 — 隨時進來喘口氣",
+  title: "도파민 캠프 | 온라인 가상 휴게실 — 언제든지 한숨 돌리세요",
   description:
-    "華語圈最 chill 的線上虛擬休息室。免註冊、免下載，打開網頁就能抽根煙、聊天放鬆。隨時進來，和陌生人一起喘口氣。",
+    "한국에서 가장 자유로운 가상 휴게실. 회원가입도 다운로드도 필요 없어요. 웹페이지를 열고 담배 한 대 피우며 편하게 대화하세요.",
   metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "多巴胺集中營 — 線上抽煙聊天室，隨時進來喘口氣",
+    title: "도파민 캠프 — 온라인 흡연 채팅방, 언제든지 들러서 한숨 돌리세요",
     description:
-      "華語圈最 chill 的線上虛擬休息室。免註冊、免下載，打開網頁就能抽根煙、聊天放鬆。",
+      "한국에서 가장 자유로운 가상 휴게실. 회원가입 불필요, 웹만 열면 담배 한 대 피우며 대화할 수 있어요.",
     url: SITE_URL,
-    siteName: "多巴胺集中營",
-    locale: "zh_TW",
+    siteName: "도파민 캠프",
+    locale: "ko_KR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "多巴胺集中營",
+    title: "도파민 캠프",
     description:
-      "線上虛擬休息室，隨時進來抽根煙、聊天放鬆。免註冊、免下載。",
+      "온라인 가상 휴게실, 언제든지 담배 한 대 피우며 대화하세요. 회원가입 불필요.",
   },
   alternates: {
     languages: {
-      "zh-TW": SITE_URL,
+      "ko-KR": SITE_URL,
     },
   },
   robots: {
@@ -39,10 +39,10 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "多巴胺集中營",
+  name: "도파민 캠프",
   url: SITE_URL,
   description:
-    "華語圈最 chill 的線上虛擬休息室。免註冊，隨時進來抽煙聊天。",
+    "한국에서 가장 자유로운 온라인 가상 휴게실. 회원가입 없이 언제든지 담배를 피우며 대화할 수 있습니다.",
   applicationCategory: "SocialNetworkingApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0" },
@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-Hant">
+    <html lang="ko">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href={GEIST_URL} />
