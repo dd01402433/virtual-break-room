@@ -446,6 +446,7 @@ export default function ChatRoom() {
   const [smokingId, setSmokingId] = useState<string | null>(null);
   const { bubbles, addBubble } = useFloatBubbles();
   const cigRef = useRef<CigaretteRef>(null);
+  const [showHelp, setShowHelp] = useState(false);
 
   const fetchMessages = useCallback(async () => {
     try {
@@ -538,7 +539,38 @@ export default function ChatRoom() {
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 32, paddingTop: 8 }}>
+        <div style={{ textAlign: "center", marginBottom: 32, paddingTop: 8, position: "relative" }}>
+          <button
+            onClick={() => setShowHelp(true)}
+            title="기능 설명"
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 8,
+              width: 28,
+              height: 28,
+              borderRadius: "50%",
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              color: "rgba(255,255,255,0.35)",
+              fontSize: 14,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.7)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.35)";
+            }}
+          >
+            ?
+          </button>
           <h1
             className="title-gradient"
             style={{
@@ -718,6 +750,114 @@ export default function ChatRoom() {
       <StatusBar />
       <FloatBubbles bubbles={bubbles} />
       <Cigarette ref={cigRef} smokerName={name} />
+
+      {/* Help Modal */}
+      {showHelp && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 100,
+            background: "rgba(0,0,0,0.7)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+          onClick={() => setShowHelp(false)}
+        >
+          <div
+            style={{
+              background: "rgba(20,20,30,0.96)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 16,
+              padding: "28px 32px",
+              maxWidth: 480,
+              width: "100%",
+              maxHeight: "80vh",
+              overflowY: "auto",
+              color: "rgba(235,230,220,0.85)",
+              fontSize: 13,
+              lineHeight: 1.7,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#d4a860" }}>기능 설명</h2>
+              <button
+                onClick={() => setShowHelp(false)}
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 8,
+                  color: "rgba(255,255,255,0.5)",
+                  width: 28,
+                  height: 28,
+                  cursor: "pointer",
+                  fontSize: 14,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                  <th style={{ textAlign: "left", padding: "6px 0", color: "rgba(200,160,100,0.7)", fontSize: 12, fontWeight: 600, width: 110 }}>요소</th>
+                  <th style={{ textAlign: "left", padding: "6px 0", color: "rgba(200,160,100,0.7)", fontSize: 12, fontWeight: 600 }}>기능</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>담배런</td>
+                  <td style={{ padding: "7px 0" }}>웹사이트 이름, 금색 그라디언트 애니메이션</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>온라인 인원</td>
+                  <td style={{ padding: "7px 0" }}>지난 2분 내 활동한 사용자 수 표시</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>대화 카드</td>
+                  <td style={{ padding: "7px 0" }}>다른 사용자 메시지 표시. <b>클릭 시</b> 담배가 다 탔으면 새 담배로 리셋</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>🚬 버튼</td>
+                  <td style={{ padding: "7px 0" }}>해당 사용자에게 담배 건네기 — 시스템 메시지 + 연기 효과 발생</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>닉네임 입력</td>
+                  <td style={{ padding: "7px 0" }}>하단 고정 바에서 닉네임 설정</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>메시지 입력</td>
+                  <td style={{ padding: "7px 0" }}>하고 싶은 말 작성 (최대 200자)</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>남기기</td>
+                  <td style={{ padding: "7px 0" }}>메시지 전송, 버블 애니메이션 효과</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>담배 (우측)</td>
+                  <td style={{ padding: "7px 0" }}>길게 누르면 점화·흡연, 떼면 멈춤. 흔들기로 재털기, 더블클릭으로 재털기</td>
+                </tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>좌측 광고</td>
+                  <td style={{ padding: "7px 0" }}>드래그로 너비 조절 가능, ✕ 버튼으로 닫기</td>
+                </tr>
+                <tr>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>Dopamine Nav</td>
+                  <td style={{ padding: "7px 0" }}>우측 하단 플로팅 버튼, 다른 서브 페이지로 이동</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </>
   );
 }
