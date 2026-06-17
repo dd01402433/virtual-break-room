@@ -6,9 +6,9 @@ const GEIST_URL =
 const SITE_URL = "https://virtual-break-room-318.vercel.app";
 
 export const metadata: Metadata = {
-  title: "담배런 | 온라인 담타 — 퇴근 후 담배 한 대, 가상 흡연실",
+  title: "공유 담배 채팅 플랫폼 | 온라인 담타 — 가상 흡연실",
   description:
-    "퇴근 후 담배 한 대 피는 기분, 온라인 담타 담배런. 회원가입 없이 바로 접속하는 익명 채팅 가상 흡연실. 실시간 접속자와 함께 스트레스 해소, Z세대 힐링 도파민 사이트.",
+    "퇴근 후 담배 한 대 피는 기분, 공유 담배 채팅 플랫폼. 회원가입 없이 바로 접속하는 익명 채팅 가상 흡연실. 실시간 접속자와 함께 스트레스 해소, Z세대 힐링 도파민 사이트.",
   metadataBase: new URL(SITE_URL),
   keywords: [
     "온라인 담타",

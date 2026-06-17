@@ -606,7 +606,7 @@ export default function ChatRoom() {
               lineHeight: 1.3,
             }}
           >
-            담배런
+            공유 담배 채팅 플랫폼
           </h1>
           <p style={{
             fontSize: 13,
@@ -857,7 +857,7 @@ export default function ChatRoom() {
               </thead>
               <tbody>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>담배런</td>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>공유 담배 채팅</td>
                   <td style={{ padding: "7px 0" }}>웹사이트 이름, 금색 그라디언트 애니메이션</td>
                 </tr>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
