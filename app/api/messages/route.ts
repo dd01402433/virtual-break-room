@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMessages, addMessage } from "@/lib/redis";
-import { getMessageLimiter } from "@/lib/rate-limit";
+import { checkMessageRateLimit } from "@/lib/rate-limit";
 
 export async function GET() {
   try {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     }
 
     const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "unknown";
-    const { success, remaining } = await getMessageLimiter().limit(ip);
+    const { success, remaining } = await checkMessageRateLimit(ip);
     if (!success) {
       return NextResponse.json({ error: "Too many messages, slow down" }, { status: 429 });
     }

@@ -1,29 +1,34 @@
-import { Ratelimit } from "@upstash/ratelimit";
 import { getRedis } from "./redis";
 
-let messageLimiter: Ratelimit | null = null;
-let cigaretteLimiter: Ratelimit | null = null;
+async function slidingWindowLimit(
+  key: string,
+  maxTokens: number,
+  windowSec: number
+): Promise<{ success: boolean; remaining: number }> {
+  const r = getRedis();
+  const now = Date.now();
+  const windowStart = now - windowSec * 1000;
 
-export function getMessageLimiter(): Ratelimit {
-  if (!messageLimiter) {
-    messageLimiter = new Ratelimit({
-      redis: getRedis(),
-      limiter: Ratelimit.slidingWindow(10, "10 s"),
-      analytics: true,
-      prefix: "ratelimit:msg",
-    });
+  // Remove old entries
+  await r.zremrangebyscore(key, 0, windowStart);
+  // Count current window
+  const count = await r.zcard(key);
+
+  if (count >= maxTokens) {
+    return { success: false, remaining: 0 };
   }
-  return messageLimiter;
+
+  // Add current request
+  await r.zadd(key, { score: now, member: `${now}-${Math.random().toString(36).slice(2, 8)}` });
+  await r.expire(key, windowSec * 2);
+
+  return { success: true, remaining: maxTokens - count - 1 };
 }
 
-export function getCigaretteLimiter(): Ratelimit {
-  if (!cigaretteLimiter) {
-    cigaretteLimiter = new Ratelimit({
-      redis: getRedis(),
-      limiter: Ratelimit.slidingWindow(5, "10 s"),
-      analytics: true,
-      prefix: "ratelimit:cig",
-    });
-  }
-  return cigaretteLimiter;
+export async function checkMessageRateLimit(ip: string) {
+  return slidingWindowLimit(`rl:msg:${ip}`, 10, 10);
+}
+
+export async function checkCigaretteRateLimit(ip: string) {
+  return slidingWindowLimit(`rl:cig:${ip}`, 5, 10);
 }

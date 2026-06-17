@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
-import { getCigaretteLimiter } from "@/lib/rate-limit";
+import { checkCigaretteRateLimit } from "@/lib/rate-limit";
 
 const CIG_KEY = "cigarette:state";
 const TTL = 5; // seconds — auto-expire when no one is smoking
@@ -27,7 +27,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "unknown";
-    const { success } = await getCigaretteLimiter().limit(ip);
+    const { success } = await checkCigaretteRateLimit(ip);
     if (!success) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
