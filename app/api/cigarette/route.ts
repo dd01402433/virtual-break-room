@@ -19,8 +19,8 @@ export async function GET() {
     }
     const state = typeof raw === "string" ? JSON.parse(raw) : raw;
     return NextResponse.json(state);
-  } catch {
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e?.message ?? String(e) }, { status: 500 });
   }
 }
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     await r.set(CIG_KEY, JSON.stringify(state));
     await r.expire(CIG_KEY, TTL);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e?.message ?? String(e) }, { status: 500 });
   }
 }
