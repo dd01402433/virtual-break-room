@@ -7,7 +7,7 @@ export async function GET() {
     const messages = await getMessages();
     return NextResponse.json({ ok: true, count: messages.length, messages });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? String(e) }, { status: 500 });
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }
 
@@ -28,6 +28,6 @@ export async function POST(req: NextRequest) {
     const msg = await addMessage(name, text);
     return NextResponse.json({ ...msg, remaining }, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? String(e) }, { status: 500 });
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }
