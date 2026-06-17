@@ -415,7 +415,7 @@ export default function ChatRoom() {
             borderRadius: '16px 16px 0 0'
           }}>
             <input placeholder="닉네임" maxLength="20" className="nickname-input" style={{ width: '68px', padding: '10px 10px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={name} onChange={(e) => setName(e.target.value)} />
-            <input placeholder="하고 싶은 말..." maxLength="200" style={{ flex: 1, padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={text} onChange={(e) => setText(e.target.value)} />
+            <input placeholder="하고 싶은 말..." maxLength="200" style={{ flex: 1, padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={text} onChange={(e) => setName(e.target.value)} />
             <button type="submit" className="btn-gradient" disabled={sending}>남기기</button>
           </form>
         </main>
@@ -427,4 +427,3 @@ export default function ChatRoom() {
     </div>
   );
 }
-// Force Redeploy - Wed Jun 17 20:13:05 CST 2026
