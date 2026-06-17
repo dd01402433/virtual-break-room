@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
+import { getCigaretteLimiter } from "@/lib/rate-limit";
 
 const CIG_KEY = "cigarette:state";
 const TTL = 5; // seconds — auto-expire when no one is smoking
@@ -18,13 +19,19 @@ export async function GET() {
     }
     const state = typeof raw === "string" ? JSON.parse(raw) : raw;
     return NextResponse.json(state);
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "unknown";
+    const { success } = await getCigaretteLimiter().limit(ip);
+    if (!success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const body = await req.json();
     const { isBurning, burnLevel, smokerName, lastUpdate } = body;
     const r = getRedis();
@@ -37,7 +44,7 @@ export async function POST(req: NextRequest) {
     await r.set(CIG_KEY, JSON.stringify(state));
     await r.expire(CIG_KEY, TTL);
     return NextResponse.json({ ok: true });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }
