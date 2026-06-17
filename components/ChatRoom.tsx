@@ -365,7 +365,13 @@ export default function ChatRoom() {
       <Cigarette ref={cigRef} smokerName={name} isUnlocked={isUnlocked} />
 
       <div className={isUnlocked ? 'ritual-visible' : 'ritual-hidden'}>
-        <main className="main-content" style={{ position: 'relative', zIndex: 1, maxWidth: '480px', margin: '0 auto', padding: '40px 16px 120px' }}>
+        <main className="main-content" style={{ 
+          position: 'relative', 
+          zIndex: 1, 
+          maxWidth: '420px', 
+          margin: '0 auto', 
+          padding: '40px 16px 120px' 
+        }}>
           <div style={{ textAlign: 'center', marginBottom: '32px', paddingTop: '8px', position: 'relative' }}>
             <button title="기능 설명" onClick={(e) => { e.stopPropagation(); setShowHelp(true); }} style={{ position: 'absolute', left: 0, top: '8px', width: '28px', height: '28px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.35)', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s ease' }}>?</button>
             <h1 className="title-gradient" style={{ fontSize: 'clamp(28px, 8vw, 36px)', fontWeight: 800, margin: 0, letterSpacing: '0.02em', lineHeight: 1.3 }}>공유 담배 채팅 플랫폼</h1>
@@ -390,7 +396,24 @@ export default function ChatRoom() {
             )}
           </div>
 
-          <form className="input-bar" onSubmit={handleSubmit} style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 5, background: 'rgba(13,13,20,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '10px 12px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <form className="input-bar" onSubmit={handleSubmit} style={{ 
+            position: 'fixed', 
+            bottom: 0, 
+            left: '50%', 
+            transform: 'translateX(-50%)', 
+            width: 'calc(100% - 32px)', 
+            maxWidth: '420px', 
+            zIndex: 5, 
+            background: 'rgba(13,13,20,0.85)', 
+            backdropFilter: 'blur(20px)', 
+            WebkitBackdropFilter: 'blur(20px)', 
+            borderTop: '1px solid rgba(255,255,255,0.05)', 
+            padding: '10px 12px', 
+            display: 'flex', 
+            gap: '6px', 
+            alignItems: 'center',
+            borderRadius: '16px 16px 0 0'
+          }}>
             <input placeholder="닉네임" maxLength="20" className="nickname-input" style={{ width: '68px', padding: '10px 10px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={name} onChange={(e) => setName(e.target.value)} />
             <input placeholder="하고 싶은 말..." maxLength="200" style={{ flex: 1, padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={text} onChange={(e) => setText(e.target.value)} />
             <button type="submit" className="btn-gradient" disabled={sending}>남기기</button>
