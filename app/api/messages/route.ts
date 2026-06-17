@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMessages, addMessage } from "@/lib/redis";
 import { checkMessageRateLimit } from "@/lib/rate-limit";
+import { filterContent } from "@/lib/content-filter";
 
 export async function GET() {
   try {
@@ -17,6 +18,11 @@ export async function POST(req: NextRequest) {
     const { name, text } = body;
     if (!name || !text) {
       return NextResponse.json({ error: "name and text required" }, { status: 400 });
+    }
+
+    const filterResult = filterContent(name, text);
+    if (!filterResult.passed) {
+      return NextResponse.json({ error: filterResult.reason }, { status: 400 });
     }
 
     const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "unknown";

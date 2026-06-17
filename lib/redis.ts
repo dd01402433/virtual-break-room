@@ -50,3 +50,25 @@ export async function addMessage(name: string, text: string): Promise<Message> {
   await r.ltrim(MESSAGES_KEY, 0, MAX_MESSAGES - 1);
   return msg;
 }
+
+// ── Reports ────────────────────────────────────────────
+const REPORTS_KEY = "breakroom:reports";
+
+export interface Report {
+  id: string;
+  messageId: string;
+  reason: string;
+  timestamp: number;
+}
+
+export async function addReport(messageId: string, reason: string): Promise<Report> {
+  const r = getRedis();
+  const report: Report = {
+    id: crypto.randomUUID(),
+    messageId,
+    reason,
+    timestamp: Date.now(),
+  };
+  await r.lpush(REPORTS_KEY, JSON.stringify(report));
+  return report;
+}

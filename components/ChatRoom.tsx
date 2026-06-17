@@ -447,6 +447,10 @@ export default function ChatRoom() {
   const { bubbles, addBubble } = useFloatBubbles();
   const cigRef = useRef<CigaretteRef>(null);
   const [showHelp, setShowHelp] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [reportTarget, setReportTarget] = useState<{ id: string; name: string; text: string } | null>(null);
+  const [reportReason, setReportReason] = useState("");
+  const [reportSent, setReportSent] = useState(false);
 
   const fetchMessages = useCallback(async () => {
     try {
@@ -520,6 +524,27 @@ export default function ChatRoom() {
   const handleCardClick = () => {
     if (cigRef.current && cigRef.current.isBurnedOut()) {
       cigRef.current.reset();
+    }
+  };
+
+  const handleReportOpen = (msg: { id: string; name: string; text: string }) => {
+    setReportTarget(msg);
+    setReportReason("");
+    setReportSent(false);
+    setShowReport(true);
+  };
+
+  const handleReportSubmit = async () => {
+    if (!reportTarget) return;
+    try {
+      await fetch("/api/report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messageId: reportTarget.id, reason: reportReason }),
+      });
+      setReportSent(true);
+    } catch {
+      // silent
     }
   };
 
@@ -646,6 +671,24 @@ export default function ChatRoom() {
                           🚬
                         </button>
                       )}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleReportOpen(msg); }}
+                        title="신고하기"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          fontSize: 12,
+                          opacity: 0.25,
+                          padding: 0,
+                          lineHeight: 1,
+                          transition: "opacity 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.7"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.25"; }}
+                      >
+                        🚩
+                      </button>
                     </div>
                   </div>
                   <p style={{
@@ -849,12 +892,151 @@ export default function ChatRoom() {
                   <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>좌측 광고</td>
                   <td style={{ padding: "7px 0" }}>드래그로 너비 조절 가능, ✕ 버튼으로 닫기</td>
                 </tr>
-                <tr>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
                   <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>Dopamine Nav</td>
                   <td style={{ padding: "7px 0" }}>우측 하단 플로팅 버튼, 다른 서브 페이지로 이동</td>
                 </tr>
+                <tr>
+                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>🚩 신고</td>
+                  <td style={{ padding: "7px 0" }}>부적절한 메시지 신고. 메시지 우측 깃발 버튼 클릭</td>
+                </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Report Modal */}
+      {showReport && reportTarget && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 100,
+            background: "rgba(0,0,0,0.7)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+          onClick={() => setShowReport(false)}
+        >
+          <div
+            style={{
+              background: "rgba(20,20,30,0.96)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 16,
+              padding: "28px 32px",
+              maxWidth: 440,
+              width: "100%",
+              color: "rgba(235,230,220,0.85)",
+              fontSize: 13,
+              lineHeight: 1.7,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#e87040" }}>메시지 신고</h2>
+              <button
+                onClick={() => setShowReport(false)}
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 8,
+                  color: "rgba(255,255,255,0.5)",
+                  width: 28,
+                  height: 28,
+                  cursor: "pointer",
+                  fontSize: 14,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {reportSent ? (
+              <div style={{ textAlign: "center", padding: "20px 0" }}>
+                <p style={{ color: "#a0d0a0", fontSize: 15, marginBottom: 12 }}>신고가 접수되었습니다</p>
+                <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 12 }}>검토 후 조치하겠습니다. 감사합니다.</p>
+              </div>
+            ) : (
+              <>
+                <div style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 10,
+                  padding: "12px 16px",
+                  marginBottom: 16,
+                }}>
+                  <div style={{ fontSize: 12, color: "#d4a860", marginBottom: 4, fontWeight: 600 }}>
+                    {reportTarget.name}
+                  </div>
+                  <div style={{ fontSize: 13, color: "rgba(235,230,220,0.7)" }}>
+                    {reportTarget.text.slice(0, 100)}{reportTarget.text.length > 100 ? "…" : ""}
+                  </div>
+                </div>
+
+                <textarea
+                  placeholder="신고 사유 (선택사항, 최대 200자)"
+                  value={reportReason}
+                  onChange={(e) => setReportReason(e.target.value)}
+                  maxLength={200}
+                  style={{
+                    width: "100%",
+                    height: 72,
+                    padding: "10px 14px",
+                    borderRadius: 10,
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(255,255,255,0.03)",
+                    color: "#e0e0e0",
+                    fontSize: 13,
+                    fontFamily: "inherit",
+                    resize: "none",
+                    outline: "none",
+                    marginBottom: 16,
+                  }}
+                />
+
+                <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                  <button
+                    onClick={() => setShowReport(false)}
+                    style={{
+                      padding: "8px 16px",
+                      borderRadius: 10,
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      background: "rgba(255,255,255,0.03)",
+                      color: "rgba(255,255,255,0.5)",
+                      fontSize: 13,
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    취소
+                  </button>
+                  <button
+                    onClick={handleReportSubmit}
+                    style={{
+                      padding: "8px 20px",
+                      borderRadius: 10,
+                      border: "none",
+                      background: "linear-gradient(135deg, #c0392b, #e74c3c)",
+                      color: "#fff",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    신고하기
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
