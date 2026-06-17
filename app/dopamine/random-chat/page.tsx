@@ -26,14 +26,14 @@ export default function Page() {
   "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "random-chat"}]
 })}}
       />
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
           ← 도파민 사이트 모음
         </Link>
       </div>
 
-      <h1 style={{fontSize:28,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 28px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
         랜덤 채팅과 익명 대화가 주는 도파민
       </h1>
 
@@ -42,16 +42,16 @@ export default function Page() {
       </div>
 
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>랜덤 채팅의 도파민 원리</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>다음에 누가 나올지 모르는 랜덤 채팅은 도박과 같은 도파민 회로를 자극합니다. 이번엔 어떤 사람일까 라는 기대감이 뇌의 보상 시스템을 활성화시키죠.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>랜덤 채팅의 도파민 원리</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>다음에 누가 나올지 모르는 랜덤 채팅은 도박과 같은 도파민 회로를 자극합니다. 이번엔 어떤 사람일까 라는 기대감이 뇌의 보상 시스템을 활성화시키죠.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>한국 랜덤 채팅 문화</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>2010년대 세이클럽 버디버디에서 시작된 한국 랜덤 채팅 문화는 2026년 지금 더 진화했습니다. 카카오톡 오픈채팅, 디스코드, 그리고 각종 도파민 사이트까지.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>한국 랜덤 채팅 문화</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>2010년대 세이클럽 버디버디에서 시작된 한국 랜덤 채팅 문화는 2026년 지금 더 진화했습니다. 카카오톡 오픈채팅, 디스코드, 그리고 각종 도파민 사이트까지.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>1대1보다 더 따뜻한 공간, 담배런</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>랜덤 1대1 채팅은 매번 새 상대를 찾는 피로가 있지만, 담배런은 같이 담배 피는 익명의 공동체입니다. 누가 들어와도 괜찮고, 언제 나가도 괜찮은 공간.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>1대1보다 더 따뜻한 공간, 담배런</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>랜덤 1대1 채팅은 매번 새 상대를 찾는 피로가 있지만, 담배런은 같이 담배 피는 익명의 공동체입니다. 누가 들어와도 괜찮고, 언제 나가도 괜찮은 공간.</p>
                 </section>
       <div style={{marginTop:48,padding:"28px 24px",background:"rgba(212,168,96,0.08)",borderRadius:12,border:"1px solid rgba(212,168,96,0.25)",textAlign:"center" as const}}>
         <p style={{fontSize:17,fontWeight:700,color:"#f0e0c0",marginBottom:8,marginTop:0}}>

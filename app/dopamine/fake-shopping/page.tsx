@@ -26,14 +26,14 @@ export default function Page() {
   "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "fake-shopping"}]
 })}}
       />
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
           ← 도파민 사이트 모음
         </Link>
       </div>
 
-      <h1 style={{fontSize:28,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 28px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
         가짜 쇼핑몰로 즐기는 쇼핑 대리만족, 윈도우 쇼핑의 진화
       </h1>
 
@@ -42,16 +42,16 @@ export default function Page() {
       </div>
 
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>가짜 쇼핑몰이란?</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>실제 쇼핑몰과 똑같은 UI로 상품을 둘러보고 장바구니에 담는 과정까지 즐기지만, 결제 버튼이 없는 가상 쇼핑몰입니다. 샀다는 기분만으로 도파민이 분비되는 원리를 이용한 도파민 사이트예요.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>가짜 쇼핑몰이란?</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>실제 쇼핑몰과 똑같은 UI로 상품을 둘러보고 장바구니에 담는 과정까지 즐기지만, 결제 버튼이 없는 가상 쇼핑몰입니다. 샀다는 기분만으로 도파민이 분비되는 원리를 이용한 도파민 사이트예요.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>왜 가짜 쇼핑이 인기인가</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>한국 2030 세대의 평균 가처분소득은 월 180만원 이하. 진짜 쇼핑은 부담스럽지만 장바구니에 이것저것 담는 행위 자체가 스트레스 해소 효과가 있습니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>왜 가짜 쇼핑이 인기인가</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>한국 2030 세대의 평균 가처분소득은 월 180만원 이하. 진짜 쇼핑은 부담스럽지만 장바구니에 이것저것 담는 행위 자체가 스트레스 해소 효과가 있습니다.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>쇼핑보다 더 강력한 힐링, 담배런</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>쇼핑 대리만족은 혼자 하는 도파민이지만, 담배런은 실시간 접속자와 함께하는 소셜 도파민입니다. 익명 채팅으로 오늘 하루 스트레스를 털어놓고 가세요.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>쇼핑보다 더 강력한 힐링, 담배런</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>쇼핑 대리만족은 혼자 하는 도파민이지만, 담배런은 실시간 접속자와 함께하는 소셜 도파민입니다. 익명 채팅으로 오늘 하루 스트레스를 털어놓고 가세요.</p>
                 </section>
       <div style={{marginTop:48,padding:"28px 24px",background:"rgba(212,168,96,0.08)",borderRadius:12,border:"1px solid rgba(212,168,96,0.25)",textAlign:"center" as const}}>
         <p style={{fontSize:17,fontWeight:700,color:"#f0e0c0",marginBottom:8,marginTop:0}}>

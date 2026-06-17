@@ -26,14 +26,14 @@ export default function Page() {
   "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "quit-work-timer"}]
 })}}
       />
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
           ← 도파민 사이트 모음
         </Link>
       </div>
 
-      <h1 style={{fontSize:28,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 28px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
         퇴근 타이머, 칼퇴 카운트다운으로 버티는 직장인 도파민
       </h1>
 
@@ -42,16 +42,16 @@ export default function Page() {
       </div>
 
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>퇴근 타이머란?</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>퇴근까지 남은 시간을 시:분:초로 보여주는 웹사이트입니다. 2025년 한국 직장인 익명 커뮤니티 블라인드에서 시작된 밈에서 탄생했고, 지금은 수많은 사이트가 생겨났습니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>퇴근 타이머란?</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>퇴근까지 남은 시간을 시:분:초로 보여주는 웹사이트입니다. 2025년 한국 직장인 익명 커뮤니티 블라인드에서 시작된 밈에서 탄생했고, 지금은 수많은 사이트가 생겨났습니다.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>왜 퇴근 타이머가 도파민인가</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>한국 직장인 평균 근로시간은 주 52시간. 퇴근까지 남은 시간을 숫자로 보는 것만으로 끝이 있다는 안도감을 줍니다. 월급 루팡 계열은 실시간 급여 계산까지 보여줍니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>왜 퇴근 타이머가 도파민인가</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>한국 직장인 평균 근로시간은 주 52시간. 퇴근까지 남은 시간을 숫자로 보는 것만으로 끝이 있다는 안도감을 줍니다. 월급 루팡 계열은 실시간 급여 계산까지 보여줍니다.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>퇴근 후엔 담배런</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>퇴근 타이머로 버텼다면, 퇴근 후엔 담배런에서 오늘도 살아남았다 한마디 남기세요. 같은 처지의 직장인들이 실시간으로 공감해줍니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>퇴근 후엔 담배런</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>퇴근 타이머로 버텼다면, 퇴근 후엔 담배런에서 오늘도 살아남았다 한마디 남기세요. 같은 처지의 직장인들이 실시간으로 공감해줍니다.</p>
                 </section>
       <div style={{marginTop:48,padding:"28px 24px",background:"rgba(212,168,96,0.08)",borderRadius:12,border:"1px solid rgba(212,168,96,0.25)",textAlign:"center" as const}}>
         <p style={{fontSize:17,fontWeight:700,color:"#f0e0c0",marginBottom:8,marginTop:0}}>

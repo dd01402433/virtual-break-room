@@ -26,14 +26,14 @@ export default function Page() {
   "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "online-together"}]
 })}}
       />
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
           ← 도파민 사이트 모음
         </Link>
       </div>
 
-      <h1 style={{fontSize:28,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 28px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
         같이 있는 느낌, 온라인 모각공과 실시간 접속자의 위로
       </h1>
 
@@ -42,16 +42,16 @@ export default function Page() {
       </div>
 
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>온라인 멀티 방의 심리학</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>코로나 이후 한국에서는 모각공(모여서 각자 공부), 모각코(모여서 각자 코딩) 문화가 생겼습니다. 같은 공간에 있지만 각자 할 일을 하는 단순한 공존이 외로움을 크게 줄여줍니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>온라인 멀티 방의 심리학</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>코로나 이후 한국에서는 모각공(모여서 각자 공부), 모각코(모여서 각자 코딩) 문화가 생겼습니다. 같은 공간에 있지만 각자 할 일을 하는 단순한 공존이 외로움을 크게 줄여줍니다.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>실시간 접속자 숫자가 중요한 이유</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>온라인 멀티 방에서 가장 중요한 것은 지금 이 순간 몇 명이 함께 있는가 입니다. 접속자 숫자 하나만으로 나 혼자가 아니다 라는 안도감을 주죠.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>실시간 접속자 숫자가 중요한 이유</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>온라인 멀티 방에서 가장 중요한 것은 지금 이 순간 몇 명이 함께 있는가 입니다. 접속자 숫자 하나만으로 나 혼자가 아니다 라는 안도감을 주죠.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>가장 순수한 형태의 멀티 방, 담배런</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>담배런은 온라인 멀티 방의 가장 순수한 형태입니다. 목적 없는 공존, 부담 없는 대화, 실시간 접속자 수. 같이 담배 피는 느낌 하나로 충분한 공간.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>가장 순수한 형태의 멀티 방, 담배런</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>담배런은 온라인 멀티 방의 가장 순수한 형태입니다. 목적 없는 공존, 부담 없는 대화, 실시간 접속자 수. 같이 담배 피는 느낌 하나로 충분한 공간.</p>
                 </section>
       <div style={{marginTop:48,padding:"28px 24px",background:"rgba(212,168,96,0.08)",borderRadius:12,border:"1px solid rgba(212,168,96,0.25)",textAlign:"center" as const}}>
         <p style={{fontSize:17,fontWeight:700,color:"#f0e0c0",marginBottom:8,marginTop:0}}>

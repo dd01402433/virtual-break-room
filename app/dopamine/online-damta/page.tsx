@@ -26,14 +26,14 @@ export default function Page() {
   "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "online-damta"}]
 })}}
       />
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
           ← 도파민 사이트 모음
         </Link>
       </div>
 
-      <h1 style={{fontSize:28,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 28px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
         온라인 담타, 퇴근 후 담배 한 대 피는 기분
       </h1>
 
@@ -42,16 +42,16 @@ export default function Page() {
       </div>
 
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>온라인 담타란?</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>온라인 담타(담배 타임)는 실제로 담배를 피지 않아도 퇴근 후 잠깐 쉬는 기분을 느낄 수 있는 가상 흡연실입니다. 회원가입도 다운로드도 필요 없이 브라우저만 열면 누구나 참여할 수 있어요.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>온라인 담타란?</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>온라인 담타(담배 타임)는 실제로 담배를 피지 않아도 퇴근 후 잠깐 쉬는 기분을 느낄 수 있는 가상 흡연실입니다. 회원가입도 다운로드도 필요 없이 브라우저만 열면 누구나 참여할 수 있어요.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>왜 한국 Z세대가 온라인 담타에 빠졌을까?</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>한국 2030 세대는 OECD 최장 노동시간, 치솟는 물가, 12.7% 청년 실업률 속에서 실제 휴식조차 사치가 되어버렸습니다. 온라인 담타는 0원, 0초 만에 잠깐 숨 돌리는 경험을 제공합니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>왜 한국 Z세대가 온라인 담타에 빠졌을까?</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>한국 2030 세대는 OECD 최장 노동시간, 치솟는 물가, 12.7% 청년 실업률 속에서 실제 휴식조차 사치가 되어버렸습니다. 온라인 담타는 0원, 0초 만에 잠깐 숨 돌리는 경험을 제공합니다.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>담배런이 특별한 이유</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>기존 온라인 담타 사이트와 달리 담배런은 실시간 접속자 수 표시, 담배 건네기 기능, 완전 익명 채팅을 제공합니다. 번아웃에 지친 직장인과 수험생들의 디지털 쉼터입니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>담배런이 특별한 이유</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>기존 온라인 담타 사이트와 달리 담배런은 실시간 접속자 수 표시, 담배 건네기 기능, 완전 익명 채팅을 제공합니다. 번아웃에 지친 직장인과 수험생들의 디지털 쉼터입니다.</p>
                 </section>
       <div style={{marginTop:48,padding:"28px 24px",background:"rgba(212,168,96,0.08)",borderRadius:12,border:"1px solid rgba(212,168,96,0.25)",textAlign:"center" as const}}>
         <p style={{fontSize:17,fontWeight:700,color:"#f0e0c0",marginBottom:8,marginTop:0}}>

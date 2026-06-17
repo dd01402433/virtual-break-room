@@ -511,15 +511,15 @@ export default function ChatRoom() {
           zIndex: 1,
           maxWidth: 480,
           margin: "0 auto",
-          padding: "60px 20px 140px",
+          padding: "40px 16px 120px",
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 40, paddingTop: 12 }}>
+        <div style={{ textAlign: "center", marginBottom: 32, paddingTop: 8 }}>
           <h1
             className="title-gradient"
             style={{
-              fontSize: 36,
+              fontSize: "clamp(28px, 8vw, 36px)",
               fontWeight: 800,
               margin: 0,
               letterSpacing: "0.02em",
@@ -531,7 +531,7 @@ export default function ChatRoom() {
           <p style={{
             fontSize: 13,
             color: "rgba(255,255,255,0.25)",
-            marginTop: 8,
+            marginTop: 6,
             fontWeight: 400,
             letterSpacing: "0.03em",
           }}>
@@ -542,8 +542,8 @@ export default function ChatRoom() {
         {/* Message Wall */}
         <div
           style={{
-            minHeight: 200,
-            maxHeight: 460,
+            minHeight: 180,
+            maxHeight: "calc(100vh - 320px)",
             overflowY: "auto",
             padding: "6px 2px",
           }}
@@ -624,9 +624,9 @@ export default function ChatRoom() {
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
             borderTop: "1px solid rgba(255,255,255,0.05)",
-            padding: "14px 20px",
+            padding: "10px 12px",
             display: "flex",
-            gap: 8,
+            gap: 6,
             alignItems: "center",
           }}
         >
@@ -635,10 +635,11 @@ export default function ChatRoom() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={20}
+            className="nickname-input"
             style={{
-              width: 80,
-              padding: "10px 14px",
-              borderRadius: 12,
+              width: 68,
+              padding: "10px 10px",
+              borderRadius: 10,
               border: "1px solid rgba(255,255,255,0.08)",
               background: "rgba(255,255,255,0.03)",
               color: "#e0e0e0",

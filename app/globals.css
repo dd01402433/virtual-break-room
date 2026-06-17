@@ -279,35 +279,89 @@ input:focus, textarea:focus, button:focus-visible {
 
 /* ── Responsive: Mobile (< 768px) ────────────────────── */
 @media (max-width: 767px) {
+  /* Cigarette positioning: move to bottom-right, smaller */
   .cigarette-wrapper {
-    right: 8px;
-    bottom: 80px;
+    right: 4px;
+    bottom: 70px;
     top: auto;
     transform: none;
   }
 
   .cigarette-canvas {
-    width: 90px;
-    height: 360px;
+    width: 72px;
+    height: 280px;
   }
 
   .marquee-text {
-    font-size: 12px;
+    font-size: 11px;
+  }
+
+  /* Main ChatRoom content: leave room for cigarette + nav button */
+  .main-content {
+    padding: 28px 12px 110px 12px !important;
+  }
+
+  /* Input bar: compact on mobile */
+  .input-bar {
+    padding: 8px 10px !important;
+    gap: 5px !important;
+  }
+
+  /* Nickname input: narrower on mobile to save space */
+  .nickname-input {
+    width: 56px !important;
+    padding: 10px 8px !important;
+    font-size: 12px !important;
+  }
+
+  /* Message cards: tighter padding */
+  .glass-card,
+  .glass-card-smoke {
+    padding: 10px 14px !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Disable hover animations on touch devices */
+  .glass-card:hover,
+  .glass-card-smoke:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Dopamine page title responsive */
+  .dopamine-title {
+    font-size: clamp(22px, 6vw, 30px) !important;
+  }
+
+  /* Dopamine page body text */
+  .dopamine-text {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+  }
+
+  /* Dopamine page content wrapper */
+  .dopamine-main {
+    padding: 32px 16px 48px !important;
+  }
+
+  /* Dopamine page section headings */
+  .dopamine-h2 {
+    font-size: 18px !important;
+  }
+}
+
+/* ── Responsive: Very Small (< 380px) ────────────────── */
+@media (max-width: 379px) {
+  .cigarette-wrapper {
+    display: none;
   }
 
   .main-content {
-    padding-right: 110px !important;
-    padding-left: 16px !important;
+    padding: 24px 12px 100px 12px !important;
   }
 
-  .input-bar {
-    padding-right: 16px !important;
-    padding-left: 12px !important;
-  }
-
-  .glass-card:hover,
-  .glass-card-smoke:hover {
-    transform: none;
-    box-shadow: none;
+  .nickname-input {
+    width: 48px !important;
+    font-size: 11px !important;
   }
 }

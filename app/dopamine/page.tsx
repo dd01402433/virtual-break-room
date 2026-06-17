@@ -30,13 +30,13 @@ const pages = [
 
 export default function Page() {
   return (
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"담배런","item":"https://virtual-break-room-318.vercel.app"},{"@type":"ListItem","position":2,"name":"도파민 사이트 TOP 10","item":"https://virtual-break-room-318.vercel.app/dopamine"}]})}}
       />
 
-      <h1 style={{fontSize:30,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 30px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:12}}>
         도파민 사이트 TOP 10 — Z세대 힐링 완벽 정리
       </h1>
       <p style={{fontSize:16,color:"rgba(235,230,220,0.6)",lineHeight:1.7,marginBottom:32}}>

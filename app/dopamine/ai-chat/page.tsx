@@ -26,14 +26,14 @@ export default function Page() {
   "itemListElement": [{"@type": "ListItem", "position": 1, "name": "담배런", "item": "https://virtual-break-room-318.vercel.app"}, {"@type": "ListItem", "position": 2, "name": "도파민 사이트 TOP 10", "item": "https://virtual-break-room-318.vercel.app/dopamine"}, {"@type": "ListItem", "position": 3, "name": "ai-chat"}]
 })}}
       />
-    <main style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
+    <main className="dopamine-main" style={{maxWidth:700,margin:"0 auto",padding:"40px 20px 60px",background:"#0a0a0b",minHeight:"100vh"}}>
       <div style={{marginBottom:8}}>
         <Link href="/dopamine" style={{fontSize:13,color:"#d4a860",textDecoration:"none"}}>
           ← 도파민 사이트 모음
         </Link>
       </div>
 
-      <h1 style={{fontSize:28,fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
+      <h1 className="dopamine-title" style={{fontSize:"clamp(22px, 6vw, 28px)",fontWeight:800,color:"#f0e0c0",lineHeight:1.35,marginBottom:16,marginTop:12}}>
         AI 채팅이 한국 Z세대 도파민을 지배하는 이유
       </h1>
 
@@ -42,16 +42,16 @@ export default function Page() {
       </div>
 
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>한국 AI 채팅 시장의 폭발적 성장</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>Zeta, Crack, LoveyDovey 3개 앱이 각각 월 100만 달러 이상의 매출을 기록했습니다. Zeta는 한국에서 ChatGPT보다 사용시간이 1.5배 길 정도로 높은 몰입도를 보여줍니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>한국 AI 채팅 시장의 폭발적 성장</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>Zeta, Crack, LoveyDovey 3개 앱이 각각 월 100만 달러 이상의 매출을 기록했습니다. Zeta는 한국에서 ChatGPT보다 사용시간이 1.5배 길 정도로 높은 몰입도를 보여줍니다.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>AI와의 대화가 주는 도파민</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>늦은 밤, 외롭거나 스트레스 받을 때 AI에게 말을 거는 Z세대. 진짜 인간관계의 피로 없이 들어주는 존재가 있다는 것만으로 위로를 받습니다. 하지만 AI는 결국 알고리즘.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>AI와의 대화가 주는 도파민</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>늦은 밤, 외롭거나 스트레스 받을 때 AI에게 말을 거는 Z세대. 진짜 인간관계의 피로 없이 들어주는 존재가 있다는 것만으로 위로를 받습니다. 하지만 AI는 결국 알고리즘.</p>
                 </section>
                 <section style={{marginBottom: 36}}>
-                  <h2 style={{fontSize: 22, fontWeight: 700, color: "#d4a860", marginBottom: 10}}>AI 대신 진짜 익명의 사람들, 담배런</h2>
-                  <p style={{margin: 0, fontSize: 15, lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>담배런은 AI가 아닌 진짜 사람들과의 익명 소통을 제공합니다. 오늘 하루도 고생했다라는 진짜 누군가의 한마디가 AI 100마디보다 강력한 위로가 됩니다.</p>
+                  <h2 className="dopamine-h2" style={{fontSize:"clamp(17px, 4.5vw, 22px)", fontWeight: 700, color: "#d4a860", marginBottom: 10}}>AI 대신 진짜 익명의 사람들, 담배런</h2>
+                  <p style={{margin: 0, fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.75, color: "rgba(235,230,220,0.75)"}}>담배런은 AI가 아닌 진짜 사람들과의 익명 소통을 제공합니다. 오늘 하루도 고생했다라는 진짜 누군가의 한마디가 AI 100마디보다 강력한 위로가 됩니다.</p>
                 </section>
       <div style={{marginTop:48,padding:"28px 24px",background:"rgba(212,168,96,0.08)",borderRadius:12,border:"1px solid rgba(212,168,96,0.25)",textAlign:"center" as const}}>
         <p style={{fontSize:17,fontWeight:700,color:"#f0e0c0",marginBottom:8,marginTop:0}}>

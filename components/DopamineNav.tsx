@@ -59,12 +59,14 @@ export default function DopamineNav() {
             }}
           />
           <div
+            className="dopamine-nav-popup"
             style={{
               position: "fixed",
               bottom: 156,
               right: 16,
               zIndex: 50,
               width: 220,
+              maxWidth: "calc(100vw - 32px)",
               maxHeight: 340,
               overflowY: "auto",
               background: "rgba(13,13,20,0.95)",
