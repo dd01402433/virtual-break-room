@@ -41,36 +41,30 @@ function Particles() {
 }
 
 // ── Cigarette ──────────────────────────────────────────
-// Canvas logical size: 200×800, rendered ~150×600
 const CIG_CANVAS_W = 200;
 const CIG_CANVAS_H = 800;
 const CIG_RENDER_W = 150;
 const CIG_RENDER_H = 600;
-
-// Cigarette geometry (all in logical canvas px)
-const CIG_CX = CIG_CANVAS_W / 2;           // center x = 100
-const CIG_HALF_W = 35;                      // half-width of cigarette = 35 → total 70px
-const FILTER_H = 200;                        // filter (mouthpiece) height
-const PAPER_H = 480;                         // white paper height (≈ 2.4× filter)
-const TOTAL_H = FILTER_H + PAPER_H;          // 680
-// Canvas layout: cigarette drawn from y = CANVAS_H - TOTAL_H - 40 = 80  to  y = CANVAS_H - 40 = 760
-const CIG_BOTTOM_Y = CIG_CANVAS_H - 40;      // 760
-const CIG_TOP_Y = CIG_BOTTOM_Y - TOTAL_H;    // 80
-const FILTER_TOP_Y = CIG_BOTTOM_Y - FILTER_H; // 560  (boundary between filter & paper)
-const BURN_INIT = PAPER_H;                    // initial burnLength = 480
-const BURN_MIN = FILTER_H;                    // stop at filter top (burnLength = 200)
+const CIG_CX = CIG_CANVAS_W / 2;
+const CIG_HALF_W = 35;
+const FILTER_H = 200;
+const PAPER_H = 480;
+const TOTAL_H = FILTER_H + PAPER_H;
+const CIG_BOTTOM_Y = CIG_CANVAS_H - 40;
+const CIG_TOP_Y = CIG_BOTTOM_Y - TOTAL_H;
+const FILTER_TOP_Y = CIG_BOTTOM_Y - FILTER_H;
+const BURN_INIT = PAPER_H;
+const BURN_MIN = FILTER_H;
 
 export interface CigaretteRef {
   reset: () => void;
   isBurnedOut: () => boolean;
 }
 
-const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Cigarette({ smokerName }, ref) {
+const Cigarette = forwardRef<CigaretteRef, { smokerName: string; isUnlocked: boolean }>(function Cigarette({ smokerName, isUnlocked }, ref) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const smokeParticles = useRef<
-    { x: number; y: number; vx: number; vy: number; life: number; size: number }[]
-  >([]);
+  const smokeParticles = useRef<{ x: number; y: number; vx: number; vy: number; life: number; size: number }[]>([]);
   const burning = useRef(false);
   const burnLength = useRef(BURN_INIT);
   const ashLength = useRef(0);
@@ -78,15 +72,9 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
   const isPressed = useRef(false);
   const lastWag = useRef(0);
   const [shaking, setShaking] = useState(false);
-  const [remoteState, setRemoteState] = useState<{
-    isBurning: boolean;
-    burnLevel: number;
-    smokerName: string;
-    lastUpdate: number;
-  } | null>(null);
+  const [remoteState, setRemoteState] = useState<{ isBurning: boolean; burnLevel: number; smokerName: string; lastUpdate: number; } | null>(null);
   const postTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Ref-based post function to avoid stale closures in animate
   const doPostCigStateRef = useRef<() => void>(() => {});
   doPostCigStateRef.current = () => {
     fetch("/api/cigarette", {
@@ -101,15 +89,12 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
     }).catch(() => {});
   };
 
-  // Poll remote cigarette state every 2s
   useEffect(() => {
     const poll = () => {
       fetch("/api/cigarette")
         .then((r) => r.json())
         .then((data) => {
-          if (data && data.isBurning !== undefined) {
-            setRemoteState(data);
-          }
+          if (data && data.isBurning !== undefined) setRemoteState(data);
         })
         .catch(() => {});
     };
@@ -118,14 +103,12 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
     return () => clearInterval(id);
   }, []);
 
-  // Cleanup posting timer on unmount
   useEffect(() => {
     return () => {
       if (postTimer.current) clearInterval(postTimer.current);
     };
   }, []);
 
-  // ── draw ────────────────────────────────────────────
   const animate = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -134,22 +117,14 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
 
     const draw = () => {
       ctx.clearRect(0, 0, CIG_CANVAS_W, CIG_CANVAS_H);
-
-      // ── recovery: regenerate cigarette when not burning ──
       if (!burning.current && burnLength.current <= BURN_MIN) {
         burnLength.current += 0.3;
         if (burnLength.current > BURN_INIT) burnLength.current = BURN_INIT;
-        // fade ash during recovery
-        if (ashLength.current > 0) {
-          ashLength.current = Math.max(0, ashLength.current - 0.15);
-        }
+        if (ashLength.current > 0) ashLength.current = Math.max(0, ashLength.current - 0.15);
       }
-      // cleanup remaining ash after full recovery
       if (!burning.current && burnLength.current >= BURN_INIT && ashLength.current > 0) {
         ashLength.current = Math.max(0, ashLength.current - 0.5);
       }
-
-      // ── posting management ──
       const isRecovering = !burning.current && burnLength.current <= BURN_MIN && burnLength.current < BURN_INIT;
       if (burning.current || isRecovering) {
         if (!postTimer.current) {
@@ -162,8 +137,6 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
           postTimer.current = null;
         }
       }
-
-      // smoke emission
       if (burning.current) {
         if (Math.random() < 0.4) {
           smokeParticles.current.push({
@@ -176,15 +149,8 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
           });
         }
       }
-
-      // remote smoke (other user smoking)
-      if (
-        remoteState &&
-        remoteState.isBurning &&
-        remoteState.smokerName !== smokerName
-      ) {
-        const remoteBurnLength =
-          BURN_INIT - remoteState.burnLevel * (BURN_INIT - BURN_MIN);
+      if (remoteState && remoteState.isBurning && remoteState.smokerName !== smokerName) {
+        const remoteBurnLength = BURN_INIT - remoteState.burnLevel * (BURN_INIT - BURN_MIN);
         if (Math.random() < 0.3) {
           smokeParticles.current.push({
             x: CIG_CX + (Math.random() - 0.5) * 30,
@@ -196,142 +162,75 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
           });
         }
       }
-
-      // update & draw smoke
       for (let i = smokeParticles.current.length - 1; i >= 0; i--) {
         const p = smokeParticles.current[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx += (Math.random() - 0.5) * 0.02;
-        p.life -= 0.006;
-        p.size += 0.08;
-        if (p.life <= 0) {
-          smokeParticles.current.splice(i, 1);
-          continue;
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(180,170,160,${p.life * 0.4})`;
-        ctx.fill();
+        p.x += p.vx; p.y += p.vy; p.vx += (Math.random() - 0.5) * 0.02;
+        p.life -= 0.006; p.size += 0.08;
+        if (p.life <= 0) { smokeParticles.current.splice(i, 1); continue; }
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = \`rgba(180,170,160,\${p.life * 0.4})\`; ctx.fill();
       }
-
-      // ── draw cigarette body ─────────────────────────
-      const top = CIG_BOTTOM_Y - burnLength.current;  // burning tip y
-      const left = CIG_CX - CIG_HALF_W;               // 65
-      const right = CIG_CX + CIG_HALF_W;              // 135
-      const paperTop = CIG_TOP_Y;                      // 80
-      const paperBot = FILTER_TOP_Y;                   // 560
-
-      // ---- white paper (burnable part) ----
+      const top = CIG_BOTTOM_Y - burnLength.current;
+      const left = CIG_CX - CIG_HALF_W;
+      const right = CIG_CX + CIG_HALF_W;
+      const paperBot = FILTER_TOP_Y;
       const paperVisibleH = Math.max(0, paperBot - top);
       if (paperVisibleH > 0) {
         ctx.fillStyle = "#f0ece6";
         ctx.fillRect(left, top, CIG_HALF_W * 2, paperVisibleH);
-
-        // recovery tint: bottom fades from grey back to white
         if (!burning.current && burnLength.current < BURN_INIT) {
-          const recoveryFactor = burnLength.current / BURN_INIT; // 0→1 as it recovers
+          const recoveryFactor = burnLength.current / BURN_INIT;
           const tintAlpha = (1 - recoveryFactor) * 0.4;
           if (tintAlpha > 0.01) {
             const tintH = Math.min(40, paperVisibleH);
             const tintGrad = ctx.createLinearGradient(0, top, 0, top + tintH);
-            tintGrad.addColorStop(0, `rgba(80,75,70,${tintAlpha})`);
+            tintGrad.addColorStop(0, \`rgba(80,75,70,\${tintAlpha})\`);
             tintGrad.addColorStop(1, "rgba(80,75,70,0)");
             ctx.fillStyle = tintGrad;
             ctx.fillRect(left, top, CIG_HALF_W * 2, tintH);
           }
         }
-
-        // subtle horizontal texture lines
-        ctx.strokeStyle = "rgba(0,0,0,0.06)";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(0,0,0,0.06)"; ctx.lineWidth = 1;
         for (let y = top + 16; y < paperBot - 8; y += 30) {
-          ctx.beginPath();
-          ctx.moveTo(left + 8, y);
-          ctx.lineTo(right - 8, y);
-          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(left + 8, y); ctx.lineTo(right - 8, y); ctx.stroke();
         }
       }
-
-      // ---- filter (mouthpiece) ----
-      // capsule shape: rectangle + bottom semicircle
-      const filterTop = FILTER_TOP_Y;     // 560
-      const filterBot = CIG_BOTTOM_Y;     // 760
-      const r = CIG_HALF_W;              // 35  (corner radius)
-
-      // gradient: top deep orange-brown → bottom lighter
+      const filterTop = FILTER_TOP_Y;
+      const filterBot = CIG_BOTTOM_Y;
+      const r = CIG_HALF_W;
       const fGrad = ctx.createLinearGradient(0, filterTop, 0, filterBot);
-      fGrad.addColorStop(0, "#a0724a");   // deep at top (near paper)
-      fGrad.addColorStop(0.6, "#c4905a");
-      fGrad.addColorStop(1, "#d4a870");   // lighter at mouth end
-
+      fGrad.addColorStop(0, "#a0724a"); fGrad.addColorStop(0.6, "#c4905a"); fGrad.addColorStop(1, "#d4a870");
       ctx.fillStyle = fGrad;
-      // draw filter body (rectangle with rounded bottom)
-      ctx.beginPath();
-      ctx.moveTo(left + r, filterTop);
-      ctx.lineTo(right - r, filterTop);
-      // top edge (sharp)
-      ctx.lineTo(right, filterTop);
-      ctx.lineTo(right, filterBot - r);
-      // bottom-right arc
+      ctx.beginPath(); ctx.moveTo(left + r, filterTop); ctx.lineTo(right - r, filterTop);
+      ctx.lineTo(right, filterTop); ctx.lineTo(right, filterBot - r);
       ctx.arcTo(right, filterBot, right - r, filterBot, r);
-      // bottom edge
-      ctx.lineTo(left + r, filterBot);
-      // bottom-left arc
-      ctx.arcTo(left, filterBot, left, filterBot - r, r);
-      ctx.lineTo(left, filterTop);
-      ctx.closePath();
-      ctx.fill();
-
-      // ---- boundary line (tipping paper / 接裝紙) ----
-      ctx.strokeStyle = "#8a6840";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(left - 1, FILTER_TOP_Y);
-      ctx.lineTo(right + 1, FILTER_TOP_Y);
-      ctx.stroke();
-
-      // ---- ember tip (when burning) ----
+      ctx.lineTo(left + r, filterBot); ctx.arcTo(left, filterBot, left, filterBot - r, r);
+      ctx.lineTo(left, filterTop); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "#8a6840"; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(left - 1, FILTER_TOP_Y); ctx.lineTo(right + 1, FILTER_TOP_Y); ctx.stroke();
       if (burning.current && burnLength.current > BURN_MIN) {
         const glowR = 25 + Math.random() * 10;
         const eGrad = ctx.createRadialGradient(CIG_CX, top, 5, CIG_CX, top, glowR);
-        eGrad.addColorStop(0, "#ff6a20");
-        eGrad.addColorStop(0.4, "#ff4400");
-        eGrad.addColorStop(0.7, "rgba(255,60,0,0.4)");
-        eGrad.addColorStop(1, "rgba(255,30,0,0)");
-        ctx.fillStyle = eGrad;
-        ctx.fillRect(CIG_CX - glowR, top - glowR * 0.6, glowR * 2, glowR * 1.2);
-
-        // outer glow
-        ctx.beginPath();
-        ctx.arc(CIG_CX, top, 45 + Math.random() * 15, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255,80,20,0.12)";
-        ctx.fill();
+        eGrad.addColorStop(0, "#ff6a20"); eGrad.addColorStop(0.4, "#ff4400"); eGrad.addColorStop(0.7, "rgba(255,60,0,0.4)"); eGrad.addColorStop(1, "rgba(255,30,0,0)");
+        ctx.fillStyle = eGrad; ctx.fillRect(CIG_CX - glowR, top - glowR * 0.6, glowR * 2, glowR * 1.2);
+        ctx.beginPath(); ctx.arc(CIG_CX, top, 45 + Math.random() * 15, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,80,20,0.12)"; ctx.fill();
       }
-
-      // ---- ash (grey tip) ----
       if (ashLength.current > 0 && burnLength.current > BURN_MIN) {
-        ctx.fillStyle = "#666";
-        ctx.fillRect(left + 8, top - ashLength.current, (CIG_HALF_W - 8) * 2, ashLength.current);
+        ctx.fillStyle = "#666"; ctx.fillRect(left + 8, top - ashLength.current, (CIG_HALF_W - 8) * 2, ashLength.current);
       }
-
       requestAnimationFrame(draw);
     };
     draw();
   }, []);
 
-  useEffect(() => {
-    animate();
-  }, [animate]);
+  useEffect(() => { animate(); }, [animate]);
 
-  // ── interactions ─────────────────────────────────────
   const handlePointerDown = () => {
     isPressed.current = true;
     pressTimer.current = setInterval(() => {
       if (burnLength.current > BURN_MIN) {
-        burning.current = true;
-        burnLength.current -= 1.0;
-        ashLength.current += 1.0;
+        burning.current = true; burnLength.current -= 1.0; ashLength.current += 1.0;
       }
       if (burnLength.current <= BURN_MIN) {
         burning.current = false;
@@ -342,46 +241,30 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
   };
 
   const handlePointerUp = () => {
-    isPressed.current = false;
-    burning.current = false;
-    if (pressTimer.current) {
-      clearInterval(pressTimer.current);
-      pressTimer.current = null;
-    }
+    isPressed.current = false; burning.current = false;
+    if (pressTimer.current) { clearInterval(pressTimer.current); pressTimer.current = null; }
   };
 
-  // shake to ash — detect rapid pointer movement
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isPressed.current) return;
     const now = Date.now();
-    if (now - lastWag.current < 150 && Math.abs(e.movementX) > 10) {
-      ashLength.current = 0;
-    }
+    if (now - lastWag.current < 150 && Math.abs(e.movementX) > 10) { ashLength.current = 0; }
     lastWag.current = now;
   };
 
   const handleDoubleClick = () => {
-    ashLength.current = 0;
-    // trigger CSS shake animation
-    setShaking(true);
-    setTimeout(() => setShaking(false), 500);
+    ashLength.current = 0; setShaking(true); setTimeout(() => setShaking(false), 500);
   };
 
   useImperativeHandle(ref, () => ({
-    reset() {
-      burnLength.current = BURN_INIT;
-      ashLength.current = 0;
-      burning.current = false;
-    },
-    isBurnedOut() {
-      return burnLength.current <= BURN_MIN;
-    },
+    reset() { burnLength.current = BURN_INIT; ashLength.current = 0; burning.current = false; },
+    isBurnedOut() { return burnLength.current <= BURN_MIN; },
   }), []);
 
   return (
     <div
       ref={containerRef}
-      className="cigarette-wrapper"
+      className={\`cigarette-wrapper \${isUnlocked ? 'cigarette-side' : 'cigarette-center'}\`}
     >
       <div
         style={{
@@ -396,47 +279,19 @@ const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Ciga
         onDoubleClick={handleDoubleClick}
       >
         {remoteState && remoteState.isBurning && remoteState.smokerName !== smokerName && (
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: 11,
-              color: "rgba(255,160,60,0.7)",
-              marginBottom: 4,
-              textShadow: "0 0 8px rgba(255,100,20,0.3)",
-              fontWeight: 500,
-              letterSpacing: "0.03em",
-            }}
-          >
+          <div style={{ textAlign: "center", fontSize: 11, color: "rgba(255,160,60,0.7)", marginBottom: 4, textShadow: "0 0 8px rgba(255,100,20,0.3)", fontWeight: 500, letterSpacing: "0.03em" }}>
             {remoteState.smokerName} 담배 피우는 중
           </div>
         )}
-        <canvas
-          ref={canvasRef}
-          width={CIG_CANVAS_W}
-          height={CIG_CANVAS_H}
-          className="cigarette-canvas"
-          style={{
-            filter: "drop-shadow(0 0 30px rgba(255,130,50,0.2))",
-            transition: "filter 0.8s ease",
-          }}
-        />
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: 12,
-            color: "rgba(255,255,255,0.3)",
-            marginTop: 4,
-          }}
-        >
-          길게 눌러 점화
-        </div>
+        <canvas ref={canvasRef} width={CIG_CANVAS_W} height={CIG_CANVAS_H} className="cigarette-canvas" style={{ filter: "drop-shadow(0 0 30px rgba(255,130,50,0.2))", transition: "filter 0.8s ease" }} />
+        <div style={{ textAlign: "center", fontSize: 12, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>길게 눌러 점화</div>
       </div>
     </div>
   );
 });
 
-// ── Main ChatRoom ──────────────────────────────────────
 export default function ChatRoom() {
+  const [isUnlocked, setIsUnlocked] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [online, setOnline] = useState(1);
@@ -457,15 +312,12 @@ export default function ChatRoom() {
       const res = await fetch("/api/messages");
       if (!res.ok) return;
       const json = await res.json();
-      // API returns { ok, count, messages[] } — extract the messages array
       const data: Message[] = Array.isArray(json) ? json : (json.messages ?? []);
       setMessages(data);
-      // estimate online: users who posted in last 2 min
       const now = Date.now();
       const activeUsers = new Set(data.filter((m) => now - m.timestamp < 120_000).map((m) => m.name));
       setOnline(Math.max(1, activeUsers.size));
     } catch {
-      // silent
     } finally {
       setLoading(false);
     }
@@ -493,553 +345,62 @@ export default function ChatRoom() {
       addBubble(trimmedText);
       await fetchMessages();
     } catch {
-      // silent
     } finally {
       setSending(false);
     }
   };
 
-  const handleSmoke = async (e: React.MouseEvent, targetMsgId: string, targetName: string) => {
-    e.stopPropagation();
-    const trimmedName = name.trim();
-    if (!trimmedName || smokingId) return;
-    setSmokingId(targetMsgId);
-    // trigger smoke visual from click position
-    addBubble("", { type: "smoke", originX: e.clientX, originY: e.clientY });
-    try {
-      await fetch("/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: trimmedName, text: `${targetName}님께 담배를 건넸습니다 🚬`, type: "smoke" }),
-      });
-      await fetchMessages();
-    } catch {
-      // silent
-    } finally {
-      // keep feedback visible briefly
-      setTimeout(() => setSmokingId(null), 600);
-    }
-  };
-
-  const handleCardClick = () => {
-    if (cigRef.current && cigRef.current.isBurnedOut()) {
-      cigRef.current.reset();
-    }
-  };
-
-  const handleReportOpen = (msg: { id: string; name: string; text: string }) => {
-    setReportTarget(msg);
-    setReportReason("");
-    setReportSent(false);
-    setShowReport(true);
-  };
-
-  const handleReportSubmit = async () => {
-    if (!reportTarget) return;
-    try {
-      await fetch("/api/report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messageId: reportTarget.id, reason: reportReason }),
-      });
-      setReportSent(true);
-    } catch {
-      // silent
-    }
-  };
-
   return (
-    <>
-      <MarqueeBanner />
+    <div 
+      style={{ 
+        position: 'fixed', 
+        inset: 0, 
+        zIndex: 1, 
+        cursor: isUnlocked ? 'default' : 'pointer' 
+      }}
+      onClick={() => !isUnlocked && setIsUnlocked(true)}
+    >
       <Particles />
+      
+      <Cigarette ref={cigRef} smokerName={name} isUnlocked={isUnlocked} />
 
-      <main
-        className="main-content"
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: 480,
-          margin: "0 auto",
-          padding: "40px 16px 120px",
-        }}
-      >
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 32, paddingTop: 8, position: "relative" }}>
-          <button
-            onClick={() => setShowHelp(true)}
-            title="기능 설명"
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 8,
-              width: 28,
-              height: 28,
-              borderRadius: "50%",
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              color: "rgba(255,255,255,0.35)",
-              fontSize: 14,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-              e.currentTarget.style.color = "rgba(255,255,255,0.7)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-              e.currentTarget.style.color = "rgba(255,255,255,0.35)";
-            }}
-          >
-            ?
-          </button>
-          <h1
-            className="title-gradient"
-            style={{
-              fontSize: "clamp(28px, 8vw, 36px)",
-              fontWeight: 800,
-              margin: 0,
-              letterSpacing: "0.02em",
-              lineHeight: 1.3,
-            }}
-          >
-            공유 담배 채팅 플랫폼
-          </h1>
-          <p style={{
-            fontSize: 13,
-            color: "rgba(255,255,255,0.25)",
-            marginTop: 6,
-            fontWeight: 400,
-            letterSpacing: "0.03em",
-          }}>
-            지금 {online}명 쉬는 중 · 담배 한 대 피우세요
-          </p>
-        </div>
-
-        {/* Message Wall */}
-        <div
-          style={{
-            minHeight: 180,
-            maxHeight: "calc(100vh - 320px)",
-            overflowY: "auto",
-            padding: "6px 2px",
-          }}
-        >
-          {loading
-            ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-            : messages.flatMap((msg, i) => {
-                const card = (
-                <div
-                  key={msg.id}
-                  className={msg.type === "smoke" ? "glass-card-smoke" : "glass-card"}
-                  onClick={handleCardClick}
-                  style={{
-                    padding: "12px 16px",
-                    marginBottom: 10,
-                    animation: `fadeInScale 0.35s ease-out`,
-                    animationFillMode: "backwards",
-                    animationDelay: `${i * 0.03}s`,
-                    position: "relative",
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
-                    <span style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: msg.type === "smoke" ? "#e8a040" : "#d4a860",
-                      letterSpacing: "0.01em",
-                    }}>
-                      {msg.name}
-                    </span>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", fontWeight: 400 }}>
-                        {new Date(msg.timestamp).toLocaleTimeString("ko-KR", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </span>
-                      {msg.type !== "smoke" && (
-                        <button
-                          onClick={(e) => handleSmoke(e, msg.id, msg.name)}
-                          disabled={smokingId === msg.id}
-                          title="담배 건네기"
-                          className={`smoke-btn${smokingId === msg.id ? " active" : ""}`}
-                        >
-                          🚬
-                        </button>
-                      )}
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleReportOpen(msg); }}
-                        title="신고하기"
-                        style={{
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          fontSize: 12,
-                          opacity: 0.25,
-                          padding: 0,
-                          lineHeight: 1,
-                          transition: "opacity 0.2s ease",
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.7"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.25"; }}
-                      >
-                        🚩
-                      </button>
-                    </div>
-                  </div>
-                  <p style={{
-                    margin: 0,
-                    fontSize: 14,
-                    lineHeight: 1.55,
-                    color: msg.type === "smoke" ? "#d4a860" : "rgba(235,230,220,0.78)",
-                    fontWeight: 400,
-                  }}>
-                    {msg.text}
-                  </p>
-                </div>
-                );
-                if (i > 0 && i % 8 === 0) {
-                  return [<AdBanner key={`ad-${msg.id}`} />, card];
-                }
-                return [card];
-              })}
-        </div>
-
-        {/* Input */}
-        <form
-          className="input-bar"
-          onSubmit={handleSubmit}
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 5,
-            background: "rgba(13,13,20,0.85)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            borderTop: "1px solid rgba(255,255,255,0.05)",
-            padding: "10px 12px",
-            display: "flex",
-            gap: 6,
-            alignItems: "center",
-          }}
-        >
-          <input
-            placeholder="닉네임"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            maxLength={20}
-            className="nickname-input"
-            style={{
-              width: 68,
-              padding: "10px 10px",
-              borderRadius: 10,
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.03)",
-              color: "#e0e0e0",
-              fontSize: 13,
-              fontFamily: "inherit",
-              transition: "border-color 0.2s ease, background 0.2s ease",
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = "rgba(200,160,100,0.35)";
-              e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-              e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-            }}
-          />
-          <input
-            placeholder="하고 싶은 말..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            maxLength={200}
-            style={{
-              flex: 1,
-              padding: "10px 14px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.03)",
-              color: "#e0e0e0",
-              fontSize: 13,
-              fontFamily: "inherit",
-              transition: "border-color 0.2s ease, background 0.2s ease",
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = "rgba(200,160,100,0.35)";
-              e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-              e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-            }}
-          />
-          <button
-            type="submit"
-            disabled={sending}
-            className="btn-gradient"
-          >
-            남기기
-          </button>
-        </form>
-      </main>
-
-      <StatusBar />
-      <FloatBubbles bubbles={bubbles} />
-      <Cigarette ref={cigRef} smokerName={name} />
-
-      {/* Help Modal */}
-      {showHelp && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 100,
-            background: "rgba(0,0,0,0.7)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
-          onClick={() => setShowHelp(false)}
-        >
-          <div
-            style={{
-              background: "rgba(20,20,30,0.96)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 16,
-              padding: "28px 32px",
-              maxWidth: 480,
-              width: "100%",
-              maxHeight: "80vh",
-              overflowY: "auto",
-              color: "rgba(235,230,220,0.85)",
-              fontSize: 13,
-              lineHeight: 1.7,
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#d4a860" }}>기능 설명</h2>
-              <button
-                onClick={() => setShowHelp(false)}
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: 8,
-                  color: "rgba(255,255,255,0.5)",
-                  width: 28,
-                  height: 28,
-                  cursor: "pointer",
-                  fontSize: 14,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                ✕
-              </button>
-            </div>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                  <th style={{ textAlign: "left", padding: "6px 0", color: "rgba(200,160,100,0.7)", fontSize: 12, fontWeight: 600, width: 110 }}>요소</th>
-                  <th style={{ textAlign: "left", padding: "6px 0", color: "rgba(200,160,100,0.7)", fontSize: 12, fontWeight: 600 }}>기능</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>공유 담배 채팅</td>
-                  <td style={{ padding: "7px 0" }}>웹사이트 이름, 금색 그라디언트 애니메이션</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>온라인 인원</td>
-                  <td style={{ padding: "7px 0" }}>지난 2분 내 활동한 사용자 수 표시</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>대화 카드</td>
-                  <td style={{ padding: "7px 0" }}>다른 사용자 메시지 표시. <b>클릭 시</b> 담배가 다 탔으면 새 담배로 리셋</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>🚬 버튼</td>
-                  <td style={{ padding: "7px 0" }}>해당 사용자에게 담배 건네기 — 시스템 메시지 + 연기 효과 발생</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>닉네임 입력</td>
-                  <td style={{ padding: "7px 0" }}>하단 고정 바에서 닉네임 설정</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>메시지 입력</td>
-                  <td style={{ padding: "7px 0" }}>하고 싶은 말 작성 (최대 200자)</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>남기기</td>
-                  <td style={{ padding: "7px 0" }}>메시지 전송, 버블 애니메이션 효과</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>담배 (우측)</td>
-                  <td style={{ padding: "7px 0" }}>길게 누르면 점화·흡연, 떼면 멈춤. 흔들기로 재털기, 더블클릭으로 재털기</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>좌측 광고</td>
-                  <td style={{ padding: "7px 0" }}>드래그로 너비 조절 가능, ✕ 버튼으로 닫기</td>
-                </tr>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>Dopamine Nav</td>
-                  <td style={{ padding: "7px 0" }}>우측 하단 플로팅 버튼, 다른 서브 페이지로 이동</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: "7px 0", color: "#e8c87a", fontWeight: 500 }}>🚩 신고</td>
-                  <td style={{ padding: "7px 0" }}>부적절한 메시지 신고. 메시지 우측 깃발 버튼 클릭</td>
-                </tr>
-              </tbody>
-            </table>
+      <div className={isUnlocked ? 'ritual-visible' : 'ritual-hidden'}>
+        <main className="main-content" style={{ position: 'relative', zIndex: 1, maxWidth: '480px', margin: '0 auto', padding: '40px 16px 120px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px', paddingTop: '8px', position: 'relative' }}>
+            <button title="기능 설명" onClick={(e) => { e.stopPropagation(); setShowHelp(true); }} style={{ position: 'absolute', left: 0, top: '8px', width: '28px', height: '28px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.35)', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s ease' }}>?</button>
+            <h1 className="title-gradient" style={{ fontSize: 'clamp(28px, 8vw, 36px)', fontWeight: 800, margin: 0, letterSpacing: '0.02em', lineHeight: 1.3 }}>공유 담배 채팅 플랫폼</h1>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.25)', marginTop: '6px', fontWeight: 400, letterSpacing: '0.03em' }}>지금 {online}명 쉬는 중 · 담배 한 대 피우세요</p>
           </div>
-        </div>
-      )}
 
-      {/* Report Modal */}
-      {showReport && reportTarget && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 100,
-            background: "rgba(0,0,0,0.7)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
-          onClick={() => setShowReport(false)}
-        >
-          <div
-            style={{
-              background: "rgba(20,20,30,0.96)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 16,
-              padding: "28px 32px",
-              maxWidth: 440,
-              width: "100%",
-              color: "rgba(235,230,220,0.85)",
-              fontSize: 13,
-              lineHeight: 1.7,
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#e87040" }}>메시지 신고</h2>
-              <button
-                onClick={() => setShowReport(false)}
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: 8,
-                  color: "rgba(255,255,255,0.5)",
-                  width: 28,
-                  height: 28,
-                  cursor: "pointer",
-                  fontSize: 14,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                ✕
-              </button>
-            </div>
-
-            {reportSent ? (
-              <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <p style={{ color: "#a0d0a0", fontSize: 15, marginBottom: 12 }}>신고가 접수되었습니다</p>
-                <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 12 }}>검토 후 조치하겠습니다. 감사합니다.</p>
-              </div>
+          <div style={{ minHeight: '180px', maxHeight: 'calc(100vh - 320px)', overflowY: 'auto', padding: '6px 2px' }}>
+            {loading ? (
+              [1, 2, 3, 4].map((i) => (
+                <div key={i} style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', padding: '14px 16px', marginBottom: '10px', animation: 'pulse 1.4s ease-in-out infinite' }}>
+                  <div style={{ height: '10px', width: '56px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', marginBottom: '10px' }}></div>
+                  <div style={{ height: '12px', width: '75%', background: 'rgba(255,255,255,0.04)', borderRadius: '4px' }}></div>
+                </div>
+              ))
             ) : (
-              <>
-                <div style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: 10,
-                  padding: "12px 16px",
-                  marginBottom: 16,
-                }}>
-                  <div style={{ fontSize: 12, color: "#d4a860", marginBottom: 4, fontWeight: 600 }}>
-                    {reportTarget.name}
-                  </div>
-                  <div style={{ fontSize: 13, color: "rgba(235,230,220,0.7)" }}>
-                    {reportTarget.text.slice(0, 100)}{reportTarget.text.length > 100 ? "…" : ""}
-                  </div>
+              messages.map((m) => (
+                <div key={m.id} style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', padding: '14px 16px', marginBottom: '10px', position: 'relative' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#d4a860', marginBottom: '4px' }}>{m.name}</div>
+                  <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.5' }}>{m.text}</div>
                 </div>
-
-                <textarea
-                  placeholder="신고 사유 (선택사항, 최대 200자)"
-                  value={reportReason}
-                  onChange={(e) => setReportReason(e.target.value)}
-                  maxLength={200}
-                  style={{
-                    width: "100%",
-                    height: 72,
-                    padding: "10px 14px",
-                    borderRadius: 10,
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    background: "rgba(255,255,255,0.03)",
-                    color: "#e0e0e0",
-                    fontSize: 13,
-                    fontFamily: "inherit",
-                    resize: "none",
-                    outline: "none",
-                    marginBottom: 16,
-                  }}
-                />
-
-                <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                  <button
-                    onClick={() => setShowReport(false)}
-                    style={{
-                      padding: "8px 16px",
-                      borderRadius: 10,
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      background: "rgba(255,255,255,0.03)",
-                      color: "rgba(255,255,255,0.5)",
-                      fontSize: 13,
-                      cursor: "pointer",
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    취소
-                  </button>
-                  <button
-                    onClick={handleReportSubmit}
-                    style={{
-                      padding: "8px 20px",
-                      borderRadius: 10,
-                      border: "none",
-                      background: "linear-gradient(135deg, #c0392b, #e74c3c)",
-                      color: "#fff",
-                      fontSize: 13,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    신고하기
-                  </button>
-                </div>
-              </>
+              ))
             )}
           </div>
+
+          <form className="input-bar" onSubmit={handleSubmit} style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 5, background: 'rgba(13,13,20,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '10px 12px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <input placeholder="닉네임" maxLength="20" className="nickname-input" style={{ width: '68px', padding: '10px 10px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={name} onChange={(e) => setName(e.target.value)} />
+            <input placeholder="하고 싶은 말..." maxLength="200" style={{ flex: 1, padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#e0e0e0', fontSize: '13px', fontFamily: 'inherit' }} value={text} onChange={(e) => setText(e.target.value)} />
+            <button type="submit" className="btn-gradient" disabled={sending}>남기기</button>
+          </form>
+        </main>
+
+        <div style={{ position: 'fixed', bottom: '64px', left: 0, right: 0, zIndex: 6, padding: '7px 20px', textAlign: 'center', background: 'rgba(18,16,22,0.72)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', borderTop: '1px solid rgba(255,255,255,0.03)' }}>
+          <span style={{ fontSize: '11px', fontWeight: 300, color: 'rgba(200,185,155,0.55)', letterSpacing: '0.04em' }}>옥상에서 담배 피우는 중 {online}명 / 39명 · 오늘 주운 담배꽁초 5963개</span>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }
