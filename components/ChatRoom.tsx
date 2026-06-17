@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, forwardRef, useImperativeHandle } from "react";
 import SkeletonCard from "@/components/SkeletonCard";
 import MarqueeBanner from "@/components/MarqueeBanner";
 import StatusBar from "@/components/StatusBar";
@@ -60,7 +60,12 @@ const FILTER_TOP_Y = CIG_BOTTOM_Y - FILTER_H; // 560  (boundary between filter &
 const BURN_INIT = PAPER_H;                    // initial burnLength = 480
 const BURN_MIN = FILTER_H;                    // stop at filter top (burnLength = 200)
 
-function Cigarette({ smokerName }: { smokerName: string }) {
+export interface CigaretteRef {
+  reset: () => void;
+  isBurnedOut: () => boolean;
+}
+
+const Cigarette = forwardRef<CigaretteRef, { smokerName: string }>(function Cigarette({ smokerName }, ref) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const smokeParticles = useRef<
@@ -362,6 +367,17 @@ function Cigarette({ smokerName }: { smokerName: string }) {
     setTimeout(() => setShaking(false), 500);
   };
 
+  useImperativeHandle(ref, () => ({
+    reset() {
+      burnLength.current = BURN_INIT;
+      ashLength.current = 0;
+      burning.current = false;
+    },
+    isBurnedOut() {
+      return burnLength.current <= BURN_MIN;
+    },
+  }), []);
+
   return (
     <div
       ref={containerRef}
@@ -417,7 +433,7 @@ function Cigarette({ smokerName }: { smokerName: string }) {
       </div>
     </div>
   );
-}
+});
 
 // ── Main ChatRoom ──────────────────────────────────────
 export default function ChatRoom() {
@@ -429,6 +445,7 @@ export default function ChatRoom() {
   const [sending, setSending] = useState(false);
   const [smokingId, setSmokingId] = useState<string | null>(null);
   const { bubbles, addBubble } = useFloatBubbles();
+  const cigRef = useRef<CigaretteRef>(null);
 
   const fetchMessages = useCallback(async () => {
     try {
@@ -499,6 +516,12 @@ export default function ChatRoom() {
     }
   };
 
+  const handleCardClick = () => {
+    if (cigRef.current && cigRef.current.isBurnedOut()) {
+      cigRef.current.reset();
+    }
+  };
+
   return (
     <>
       <MarqueeBanner />
@@ -555,6 +578,7 @@ export default function ChatRoom() {
                 <div
                   key={msg.id}
                   className={msg.type === "smoke" ? "glass-card-smoke" : "glass-card"}
+                  onClick={handleCardClick}
                   style={{
                     padding: "12px 16px",
                     marginBottom: 10,
@@ -693,7 +717,7 @@ export default function ChatRoom() {
 
       <StatusBar />
       <FloatBubbles bubbles={bubbles} />
-      <Cigarette smokerName={name} />
+      <Cigarette ref={cigRef} smokerName={name} />
     </>
   );
 }
