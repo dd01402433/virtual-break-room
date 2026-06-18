@@ -453,8 +453,9 @@ input:focus, textarea:focus, button:focus-visible {
 
 /* ── Responsive: Very Small (< 380px) ────────────────── */
 @media (max-width: 379px) {
-  .cigarette-wrapper {
-    display: none;
+  .cigarette-canvas {
+    width: 56px;
+    height: 220px;
   }
 
   .main-content {
