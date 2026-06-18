@@ -428,25 +428,6 @@ input:focus, textarea:focus, button:focus-visible {
 
 @media (max-width: 767px) {
   .sticky-ad {
-    width: 100% !important;
-    height: 120px;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    min-width: unset;
-    max-width: unset;
-    border-right: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    flex-direction: column-reverse;
-  }
-
-  .sticky-ad-iframe {
-    height: 90px;
-    flex: none;
-  }
-
-  .sticky-ad-handle {
     display: none;
   }
 }

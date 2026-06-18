@@ -387,10 +387,13 @@ export default function ChatRoom() {
                 </div>
               ))
             ) : (
-              messages.map((m) => (
-                <div key={m.id} style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', padding: '14px 16px', marginBottom: '10px', position: 'relative' }}>
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#d4a860', marginBottom: '4px' }}>{m.name}</div>
-                  <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.5' }}>{m.text}</div>
+              messages.map((m, i) => (
+                <div key={m.id}>
+                  {i === 2 && <AdBanner key="ad-inline" />}
+                  <div style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', padding: '14px 16px', marginBottom: '10px', position: 'relative' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#d4a860', marginBottom: '4px' }}>{m.name}</div>
+                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.5' }}>{m.text}</div>
+                  </div>
                 </div>
               ))
             )}
